@@ -19,14 +19,10 @@ WORKDIR /app
 
 # Install Python dependencies
 COPY requirements.txt /app/
-RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Copy project
 COPY . /app/
-
-# Collect static files
-RUN python manage.py collectstatic --noinput
 
 # Create media directories
 RUN mkdir -p /app/media/proformas /app/media/receipts /app/media/purchase_orders

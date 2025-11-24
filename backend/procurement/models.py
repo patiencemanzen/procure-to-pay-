@@ -7,6 +7,7 @@ from decimal import Decimal
 
 User = get_user_model()
 
+
 def upload_proforma_to(instance, filename):
     """Generate upload path for proforma invoices."""
     ext = filename.split('.')[-1]
