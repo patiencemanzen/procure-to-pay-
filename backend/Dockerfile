@@ -1,34 +1,26 @@
-FROM python:3.12-slim
+# Use a slim Python image as the base
+FROM python:3.11.5-slim-bullseye
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# Set environment variables for Python
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    default-libmysqlclient-dev \
-    pkg-config \
-    tesseract-ocr \
-    tesseract-ocr-eng \
-    libtesseract-dev \
-    && rm -rf /var/lib/apt/lists/*
+# Set the working directory inside the container
+WORKDIR /code
 
-# Set work directory
-WORKDIR /app
+# Copy requirements file and install dependencies
+COPY ./requirements.txt /code/
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Python dependencies
-COPY requirements.txt /app/
-RUN pip install -r requirements.txt
+# Copy the entire Django project into the container
+COPY . /code/
 
-# Copy project
-COPY . /app/
+# Remove any cached Python files
+RUN find /code -name "*.pyc" -delete
+RUN find /code -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
 
-# Create media directories
-RUN mkdir -p /app/media/proformas /app/media/receipts /app/media/purchase_orders
-
-# Expose port
+# Expose the port Django will run on
 EXPOSE 8000
 
-# Run gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "--timeout", "120", "procure_to_pay.wsgi:application"]
+# Command to run the Django development server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

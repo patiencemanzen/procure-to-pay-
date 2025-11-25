@@ -12,3 +12,5 @@ README.md
 db.sqlite3
 media/
 static/
+procure_to_pay/__pycache__/
+procurement/__pycache__/

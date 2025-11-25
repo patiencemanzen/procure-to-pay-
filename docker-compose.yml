@@ -1,20 +1,6 @@
 version: "3.8"
 
 services:
-  # Database
-  db:
-    image: mysql:8.0
-    volumes:
-      - mysql_data:/var/lib/mysql
-    environment:
-      - MYSQL_DATABASE=procure_to_pay
-      - MYSQL_USER=procurement
-      - MYSQL_PASSWORD=procurement123
-      - MYSQL_ROOT_PASSWORD=rootpassword123
-    ports:
-      - "3306:3306"
-    command: --default-authentication-plugin=mysql_native_password
-
   # Redis for Celery
   redis:
     image: redis:7-alpine
@@ -29,26 +15,21 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./backend:/app
-      - media_files:/app/media
+      - ./backend:/code
+      - sqlite_data:/code
     environment:
       - SECRET_KEY=your-super-secret-key-change-this-in-production
       - DEBUG=True
       - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0,backend
-      - DB_NAME=procure_to_pay
-      - DB_USER=procurement
-      - DB_PASSWORD=procurement123
-      - DB_HOST=db
-      - DB_PORT=3306
+      - USE_SQLITE=True
       - CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000,http://frontend:3000
       - REDIS_URL=redis://redis:6379
     depends_on:
-      - db
       - redis
     command: >
       sh -c "python manage.py migrate &&
              python manage.py collectstatic --noinput &&
-             gunicorn --bind 0.0.0.0:8000 --workers 3 --timeout 120 --reload procure_to_pay.wsgi:application"
+             python manage.py runserver 0.0.0.0:8000"
 
   # Celery Worker
   celery:
@@ -56,19 +37,13 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     volumes:
-      - ./backend:/app
-      - media_files:/app/media
+      - ./backend:/code
     environment:
       - SECRET_KEY=your-super-secret-key-change-this-in-production
       - DEBUG=True
-      - DB_NAME=procure_to_pay
-      - DB_USER=procurement
-      - DB_PASSWORD=procurement123
-      - DB_HOST=db
-      - DB_PORT=3306
+      - USE_SQLITE=True
       - REDIS_URL=redis://redis:6379
     depends_on:
-      - db
       - redis
     command: celery -A procure_to_pay worker -l info
 
@@ -90,5 +65,4 @@ services:
       - backend
 
 volumes:
-  mysql_data:
-  media_files:
+  sqlite_data:
