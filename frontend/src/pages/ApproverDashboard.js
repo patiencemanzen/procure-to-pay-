@@ -172,7 +172,7 @@ const ApproverDashboard = () => {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                       <div>
                         <span className="text-gray-500">Amount:</span>
-                        <span className="ml-2 font-medium">${request.amount}</span>
+                        <span className="ml-2 font-medium">RWF {parseFloat(request.amount).toLocaleString()}</span>
                       </div>
                       <div>
                         <span className="text-gray-500">Requested by:</span>
@@ -195,7 +195,7 @@ const ApproverDashboard = () => {
                         <div className="mt-1 space-y-1">
                           {request.items.slice(0, 3).map((item, index) => (
                             <div key={index} className="text-sm text-gray-600">
-                              {item.name} (Qty: {item.quantity} × ${item.unit_price})
+                              {item.name} (Qty: {item.quantity} × RWF {parseFloat(item.unit_price).toLocaleString()})
                             </div>
                           ))}
                           {request.items.length > 3 && (

@@ -119,6 +119,20 @@ class PendingRequestsView(generics.ListAPIView):
     serializer_class = PurchaseRequestSerializer
     permission_classes = [permissions.IsAuthenticated]
     
+    def get(self, request, *args, **kwargs):
+        """Override get method to add debugging."""
+        user = request.user
+        print(f"PendingRequestsView accessed by user: {user.username}, authenticated: {user.is_authenticated}")
+        
+        if not user.is_authenticated:
+            return Response({"detail": "Authentication required"}, status=401)
+        
+        if not can_approve(user):
+            print(f"User {user.username} cannot approve - role: {get_user_role(user)}")
+            return Response([], status=200)  # Return empty list instead of 404
+        
+        return super().get(request, *args, **kwargs)
+    
     def get_queryset(self):
         """Get pending requests for current approver."""
         user = self.request.user

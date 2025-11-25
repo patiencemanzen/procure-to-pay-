@@ -77,26 +77,42 @@ const RequestForm = () => {
   const onSubmit = async (data) => {
     setSubmitting(true);
     try {
-      const formData = new FormData();
+      let requestData;
       
-      // Append form fields
-      formData.append('title', data.title);
-      formData.append('description', data.description);
-      formData.append('amount', data.amount);
+      // Check if we have a file upload
+      const hasFile = data.proforma && data.proforma[0];
       
-      // Append proforma file if selected
-      if (data.proforma && data.proforma[0]) {
+      if (hasFile) {
+        // Use FormData for file uploads
+        const formData = new FormData();
+        formData.append('title', data.title);
+        formData.append('description', data.description);
+        formData.append('amount', data.amount);
         formData.append('proforma', data.proforma[0]);
+        
+        // Append each item separately
+        data.items.forEach((item, index) => {
+          formData.append(`items[${index}]name`, item.name);
+          formData.append(`items[${index}]quantity`, item.quantity);
+          formData.append(`items[${index}]unit_price`, item.unit_price);
+        });
+        
+        requestData = formData;
+      } else {
+        // Use regular JSON for requests without files
+        requestData = {
+          title: data.title,
+          description: data.description,
+          amount: data.amount,
+          items: data.items
+        };
       }
-      
-      // Append items
-      formData.append('items', JSON.stringify(data.items));
 
       if (isEditing) {
-        await purchaseRequestAPI.updateRequest(id, data);
+        await purchaseRequestAPI.updateRequest(id, requestData);
         toast.success('Request updated successfully!');
       } else {
-        await purchaseRequestAPI.createRequest(data);
+        await purchaseRequestAPI.createRequest(requestData);
         toast.success('Request created successfully!');
       }
       
@@ -141,7 +157,7 @@ const RequestForm = () => {
             </div>
 
             <div>
-              <label className="form-label">Total Amount</label>
+              <label className="form-label">Total Amount (RWF)</label>
               <input
                 type="number"
                 step="0.01"
@@ -241,7 +257,7 @@ const RequestForm = () => {
                   </div>
 
                   <div className="w-32">
-                    <label className="form-label">Unit Price</label>
+                    <label className="form-label">Unit Price (RWF)</label>
                     <input
                       type="number"
                       step="0.01"
@@ -261,13 +277,13 @@ const RequestForm = () => {
                   </div>
 
                   <div className="w-32">
-                    <label className="form-label">Total</label>
+                    <label className="form-label">Total (RWF)</label>
                     <input
                       type="text"
                       value={
                         watchedItems[index]
-                          ? ((watchedItems[index].quantity || 0) * (watchedItems[index].unit_price || 0)).toFixed(2)
-                          : '0.00'
+                          ? `RWF ${((watchedItems[index].quantity || 0) * (watchedItems[index].unit_price || 0)).toLocaleString()}`
+                          : 'RWF 0'
                       }
                       className="form-input bg-gray-50"
                       readOnly

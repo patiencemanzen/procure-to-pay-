@@ -11,9 +11,7 @@ router.register(r'requests', PurchaseRequestViewSet, basename='purchase-request'
 router.register(r'purchase-orders', PurchaseOrderViewSet, basename='purchase-order')
 
 urlpatterns = [
-    path('', include(router.urls)),
-    
-    # Specific endpoints for workflow
+    # Specific endpoints for workflow (before router to avoid conflicts)
     path('requests/pending/', PendingRequestsView.as_view(), name='pending-requests'),
     path('requests/<uuid:pk>/approve/', ApprovalActionView.as_view(), name='approve-request'),
     path('requests/<uuid:pk>/reject/', ApprovalActionView.as_view(), name='reject-request'),
@@ -24,4 +22,7 @@ urlpatterns = [
     
     # User statistics
     path('dashboard/stats/', UserStatsView.as_view(), name='user-stats'),
+    
+    # Include router URLs last
+    path('', include(router.urls)),
 ]

@@ -2,15 +2,28 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from decimal import Decimal
 from .models import PurchaseRequest, RequestItem, Approval, PurchaseOrder, ReceiptValidation
+from .user_utils import get_user_role
 
 User = get_user_model()
 
 class UserSimpleSerializer(serializers.ModelSerializer):
     """Simple user serializer for foreign key relationships."""
+    full_name = serializers.SerializerMethodField()
+    role = serializers.SerializerMethodField()
     
     class Meta:
         model = User
         fields = ('id', 'full_name', 'email', 'role')
+    
+    def get_full_name(self, obj):
+        """Get user's full name from first_name and last_name."""
+        if obj.first_name or obj.last_name:
+            return f"{obj.first_name} {obj.last_name}".strip()
+        return obj.username
+    
+    def get_role(self, obj):
+        """Get user's role using utility function."""
+        return get_user_role(obj)
 
 
 class RequestItemSerializer(serializers.ModelSerializer):
@@ -152,13 +165,38 @@ class PurchaseRequestCreateSerializer(serializers.ModelSerializer):
         return value
     
     def create(self, validated_data):
-        items_data = validated_data.pop('items')
-        request = PurchaseRequest.objects.create(**validated_data)
+        items_data = validated_data.pop('items', [])
+        
+        # Check if this is FormData with items in the format items[0]name, items[0]quantity, etc.
+        request = self.context.get('request')
+        if hasattr(request, 'data') and hasattr(request.data, 'getlist'):
+            # This is likely FormData, let's try to parse items from the format
+            parsed_items = []
+            i = 0
+            while True:
+                name_key = f'items[{i}]name'
+                quantity_key = f'items[{i}]quantity'
+                unit_price_key = f'items[{i}]unit_price'
+                
+                if name_key in request.data:
+                    parsed_items.append({
+                        'name': request.data[name_key],
+                        'quantity': int(request.data[quantity_key]),
+                        'unit_price': float(request.data[unit_price_key])
+                    })
+                    i += 1
+                else:
+                    break
+            
+            if parsed_items:
+                items_data = parsed_items
+        
+        request_obj = PurchaseRequest.objects.create(**validated_data)
         
         for item_data in items_data:
-            RequestItem.objects.create(purchase_request=request, **item_data)
+            RequestItem.objects.create(purchase_request=request_obj, **item_data)
         
-        return request
+        return request_obj
 
 
 class ApprovalActionSerializer(serializers.Serializer):

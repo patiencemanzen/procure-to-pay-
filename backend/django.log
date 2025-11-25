@@ -436,3 +436,376 @@ Not Found: /manifest.json
 "GET /api/dashboard/stats/ HTTP/1.1" 200 100
 "GET /api/requests/ HTTP/1.1" 200 52
 "GET /api/dashboard/stats/ HTTP/1.1" 200 100
+Bad Request: /api/requests/
+"POST /api/requests/ HTTP/1.1" 400 88
+Not Found: /manifest.json
+"GET /manifest.json HTTP/1.1" 404 3276
+Bad Request: /api/requests/
+"POST /api/requests/ HTTP/1.1" 400 88
+E:\Personal-Documents\other-projects\Producurement\backend\procurement\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+E:\Personal-Documents\other-projects\Producurement\backend\procurement\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/auth/profile/ HTTP/1.1" 200 95
+"GET /api/auth/profile/ HTTP/1.1" 200 95
+Not Found: /manifest.json
+"GET /manifest.json HTTP/1.1" 404 3276
+E:\Personal-Documents\other-projects\Producurement\backend\procurement\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+E:\Personal-Documents\other-projects\Producurement\backend\procurement\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+"POST /api/requests/ HTTP/1.1" 201 322
+"GET /api/dashboard/stats/ HTTP/1.1" 200 100
+"GET /api/dashboard/stats/ HTTP/1.1" 200 100
+Internal Server Error: /api/requests/
+Traceback (most recent call last):
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 507, in to_representation
+    for field in fields:
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\utils\functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+                      ^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 1076, in get_fields
+    field_class, field_kwargs = self.build_field(
+                                ^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 1340, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `full_name` is not valid for model `User`.
+"GET /api/requests/ HTTP/1.1" 500 162043
+Internal Server Error: /api/requests/
+Traceback (most recent call last):
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 507, in to_representation
+    for field in fields:
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\utils\functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+                      ^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 1076, in get_fields
+    field_class, field_kwargs = self.build_field(
+                                ^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 1340, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `full_name` is not valid for model `User`.
+"GET /api/requests/ HTTP/1.1" 500 162043
+"GET /api/auth/profile/ HTTP/1.1" 200 95
+"GET /api/auth/profile/ HTTP/1.1" 200 95
+"GET /api/dashboard/stats/ HTTP/1.1" 200 100
+"GET /api/dashboard/stats/ HTTP/1.1" 200 100
+Internal Server Error: /api/requests/
+Traceback (most recent call last):
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 507, in to_representation
+    for field in fields:
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\utils\functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+                      ^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 1076, in get_fields
+    field_class, field_kwargs = self.build_field(
+                                ^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 1340, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `full_name` is not valid for model `User`.
+"GET /api/requests/ HTTP/1.1" 500 162043
+Internal Server Error: /api/requests/
+Traceback (most recent call last):
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 507, in to_representation
+    for field in fields:
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\django\utils\functional.py", line 57, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+                      ^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 1076, in get_fields
+    field_class, field_kwargs = self.build_field(
+                                ^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Personal-Documents\other-projects\Producurement\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 1340, in build_unknown_field
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Field name `full_name` is not valid for model `User`.
+"GET /api/requests/ HTTP/1.1" 500 162043
+Not Found: /manifest.json
+"GET /manifest.json HTTP/1.1" 404 3276
+Not Found: /manifest.json
+"GET /manifest.json HTTP/1.1" 404 3276
+E:\Personal-Documents\other-projects\Producurement\backend\procurement\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+E:\Personal-Documents\other-projects\Producurement\backend\procurement\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+"POST /api/auth/login/ HTTP/1.1" 200 586
+"GET /api/dashboard/stats/ HTTP/1.1" 200 100
+"GET /api/dashboard/stats/ HTTP/1.1" 200 100
+"GET /api/requests/ HTTP/1.1" 200 813
+"GET /api/requests/ HTTP/1.1" 200 813
+"OPTIONS /api/requests/3806663f-c301-4bb9-93cf-f5acbc490dea/ HTTP/1.1" 200 0
+"OPTIONS /api/requests/3806663f-c301-4bb9-93cf-f5acbc490dea/ HTTP/1.1" 200 0
+"GET /api/requests/3806663f-c301-4bb9-93cf-f5acbc490dea/ HTTP/1.1" 200 761
+"GET /api/requests/3806663f-c301-4bb9-93cf-f5acbc490dea/ HTTP/1.1" 200 761
+"GET /api/auth/profile/ HTTP/1.1" 200 95
+"GET /api/auth/profile/ HTTP/1.1" 200 95
+"GET /api/dashboard/stats/ HTTP/1.1" 200 100
+"GET /api/requests/ HTTP/1.1" 200 813
+"GET /api/dashboard/stats/ HTTP/1.1" 200 100
+"GET /api/requests/ HTTP/1.1" 200 813
+Not Found: /manifest.json
+"GET /manifest.json HTTP/1.1" 404 3276
+"GET /api/auth/profile/ HTTP/1.1" 200 95
+"GET /api/auth/profile/ HTTP/1.1" 200 95
+"GET /api/dashboard/stats/ HTTP/1.1" 200 100
+"GET /api/requests/ HTTP/1.1" 200 813
+Not Found: /manifest.json
+"GET /manifest.json HTTP/1.1" 404 3276
+"GET /api/dashboard/stats/ HTTP/1.1" 200 100
+"GET /api/requests/ HTTP/1.1" 200 813
+"GET /api/requests/3806663f-c301-4bb9-93cf-f5acbc490dea/ HTTP/1.1" 200 761
+"GET /api/requests/3806663f-c301-4bb9-93cf-f5acbc490dea/ HTTP/1.1" 200 761
+"GET /media/proformas/3806663f-c301-4bb9-93cf-f5acbc490dea/b7aeaf6d-bc65-4a6a-9ac3-09da1773fb4b.pdf HTTP/1.1" 200 117632
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3270
+"GET /api/dashboard/stats/ HTTP/1.1" 200 100
+"GET /api/requests/ HTTP/1.1" 200 813
+"GET /api/dashboard/stats/ HTTP/1.1" 200 100
+"GET /api/requests/ HTTP/1.1" 200 813
+"GET /api/requests/3806663f-c301-4bb9-93cf-f5acbc490dea/ HTTP/1.1" 200 761
+"GET /api/requests/3806663f-c301-4bb9-93cf-f5acbc490dea/ HTTP/1.1" 200 761
+"PATCH /api/requests/3806663f-c301-4bb9-93cf-f5acbc490dea/ HTTP/1.1" 200 884
+"GET /api/dashboard/stats/ HTTP/1.1" 200 100
+"GET /api/requests/ HTTP/1.1" 200 936
+"GET /api/dashboard/stats/ HTTP/1.1" 200 100
+"GET /api/requests/ HTTP/1.1" 200 936
+"POST /api/auth/login/ HTTP/1.1" 200 607
+"OPTIONS /api/requests/pending/ HTTP/1.1" 200 0
+"OPTIONS /api/requests/pending/ HTTP/1.1" 200 0
+Not Found: /api/requests/pending/
+"GET /api/dashboard/stats/ HTTP/1.1" 200 90
+"GET /api/requests/pending/ HTTP/1.1" 404 23
+Not Found: /api/requests/pending/
+"GET /api/dashboard/stats/ HTTP/1.1" 200 90
+"GET /api/requests/pending/ HTTP/1.1" 404 23
+Not Found: /manifest.json
+"GET /manifest.json HTTP/1.1" 404 3276
+"GET /api/auth/profile/ HTTP/1.1" 200 116
+"GET /api/auth/profile/ HTTP/1.1" 200 116
+Not Found: /api/requests/pending/
+"GET /api/requests/pending/ HTTP/1.1" 404 23
+"GET /api/dashboard/stats/ HTTP/1.1" 200 90
+Not Found: /manifest.json
+"GET /manifest.json HTTP/1.1" 404 3276
+Not Found: /api/requests/pending/
+"GET /api/requests/pending/ HTTP/1.1" 404 23
+"GET /api/dashboard/stats/ HTTP/1.1" 200 90
+Not Found: /api/requests/pending/
+"GET /api/requests/pending/ HTTP/1.1" 404 23
+"GET /api/dashboard/stats/ HTTP/1.1" 200 90
+E:\Personal-Documents\other-projects\Producurement\backend\procurement\views.py changed, reloading.
+Watching for file changes with StatReloader
+E:\Personal-Documents\other-projects\Producurement\backend\procurement\views.py changed, reloading.
+Watching for file changes with StatReloader
+E:\Personal-Documents\other-projects\Producurement\backend\procurement\views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/auth/profile/ HTTP/1.1" 200 116
+"GET /api/auth/profile/ HTTP/1.1" 200 116
+Not Found: /api/requests/pending/
+"GET /api/requests/pending/ HTTP/1.1" 404 23
+"GET /api/dashboard/stats/ HTTP/1.1" 200 90
+Not Found: /api/requests/pending/
+"GET /api/dashboard/stats/ HTTP/1.1" 200 90
+"GET /api/requests/pending/ HTTP/1.1" 404 23
+Not Found: /manifest.json
+"GET /manifest.json HTTP/1.1" 404 3276
+E:\Personal-Documents\other-projects\Producurement\backend\procurement\urls.py changed, reloading.
+Watching for file changes with StatReloader
+E:\Personal-Documents\other-projects\Producurement\backend\procurement\urls.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/auth/profile/ HTTP/1.1" 200 116
+"GET /api/auth/profile/ HTTP/1.1" 200 116
+"GET /api/requests/pending/ HTTP/1.1" 200 936
+"GET /api/dashboard/stats/ HTTP/1.1" 200 90
+"GET /api/requests/pending/ HTTP/1.1" 200 936
+"GET /api/dashboard/stats/ HTTP/1.1" 200 90
+Not Found: /manifest.json
+"GET /manifest.json HTTP/1.1" 404 3276
+"POST /api/auth/login/ HTTP/1.1" 200 594
+"OPTIONS /api/finance/requests/approved/ HTTP/1.1" 200 0
+"OPTIONS /api/finance/requests/approved/ HTTP/1.1" 200 0
+"GET /api/finance/requests/approved/ HTTP/1.1" 200 52
+"GET /api/dashboard/stats/ HTTP/1.1" 200 109
+"GET /api/finance/requests/approved/ HTTP/1.1" 200 52
+"GET /api/dashboard/stats/ HTTP/1.1" 200 109

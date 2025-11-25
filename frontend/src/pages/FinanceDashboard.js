@@ -168,7 +168,7 @@ const FinanceDashboard = () => {
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
                       <div>
                         <span className="text-gray-500">Amount:</span>
-                        <span className="ml-2 font-medium">${request.amount}</span>
+                        <span className="ml-2 font-medium">RWF {parseFloat(request.amount).toLocaleString()}</span>
                       </div>
                       <div>
                         <span className="text-gray-500">Requested by:</span>
@@ -201,7 +201,7 @@ const FinanceDashboard = () => {
                             <p className="text-sm text-blue-700">
                               PO #{request.purchase_order.po_number} | 
                               Vendor: {request.purchase_order.vendor} | 
-                              Total: ${request.purchase_order.total_amount}
+                              Total: RWF {parseFloat(request.purchase_order.total_amount).toLocaleString()}
                             </p>
                           </div>
                           {request.purchase_order.file && (
@@ -225,7 +225,7 @@ const FinanceDashboard = () => {
                         <div className="mt-1 space-y-1">
                           {request.items.slice(0, 3).map((item, index) => (
                             <div key={index} className="text-sm text-gray-600">
-                              {item.name} (Qty: {item.quantity} × ${item.unit_price} = ${item.total_price})
+                              {item.name} (Qty: {item.quantity} × RWF {parseFloat(item.unit_price).toLocaleString()} = RWF {parseFloat(item.total_price).toLocaleString()})
                             </div>
                           ))}
                           {request.items.length > 3 && (

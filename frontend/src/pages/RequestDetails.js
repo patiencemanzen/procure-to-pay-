@@ -94,13 +94,13 @@ const RequestDetails = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">Requested By</h3>
-            <p className="mt-2 text-lg font-semibold">{request.user.first_name} {request.user.last_name}</p>
-            <p className="text-gray-600">{request.user.email}</p>
+            <p className="mt-2 text-lg font-semibold">{request.created_by?.full_name}</p>
+            <p className="text-gray-600">{request.created_by?.email}</p>
           </div>
           
           <div>
             <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">Total Amount</h3>
-            <p className="mt-2 text-2xl font-bold text-green-600">${parseFloat(request.amount).toFixed(2)}</p>
+            <p className="mt-2 text-2xl font-bold text-green-600">RWF {parseFloat(request.amount).toLocaleString()}</p>
           </div>
 
           <div>
@@ -147,10 +147,10 @@ const RequestDetails = () => {
                     {item.quantity}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    ${parseFloat(item.unit_price).toFixed(2)}
+                    RWF {parseFloat(item.unit_price).toLocaleString()}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    ${(item.quantity * parseFloat(item.unit_price)).toFixed(2)}
+                    RWF {(item.quantity * parseFloat(item.unit_price)).toLocaleString()}
                   </td>
                 </tr>
               ))}
@@ -161,7 +161,7 @@ const RequestDetails = () => {
                   Total Amount:
                 </td>
                 <td className="px-6 py-4 text-sm font-bold text-gray-900">
-                  ${parseFloat(request.amount).toFixed(2)}
+                  RWF {parseFloat(request.amount).toLocaleString()}
                 </td>
               </tr>
             </tfoot>
@@ -182,9 +182,9 @@ const RequestDetails = () => {
                       {getApprovalLevelDisplay(approval.level)}
                     </h3>
                     <p className="text-gray-600">
-                      {approval.approver.first_name} {approval.approver.last_name}
+                      {approval.approver?.full_name}
                     </p>
-                    <p className="text-sm text-gray-500">{approval.approver.email}</p>
+                    <p className="text-sm text-gray-500">{approval.approver?.email}</p>
                   </div>
                   <div className="text-right">
                     {getStatusBadge(approval.status)}

@@ -95,8 +95,19 @@ export const purchaseRequestAPI = {
   },
   
   createRequest: async (requestData) => {
-    const response = await api.post('/requests/', requestData);
-    return response.data;
+    // Check if requestData is FormData (contains file upload)
+    if (requestData instanceof FormData) {
+      const response = await api.post('/requests/', requestData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    } else {
+      // Regular JSON request
+      const response = await api.post('/requests/', requestData);
+      return response.data;
+    }
   },
   
   updateRequest: async (id, requestData) => {
