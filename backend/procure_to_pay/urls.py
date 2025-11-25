@@ -3,10 +3,14 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from rest_framework_simplejwt.views import TokenRefreshView
+from procurement.auth_views import EmailTokenObtainPairView, get_profile
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/auth/', include('core.urls')),
+    path('api/auth/login/', EmailTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/auth/profile/', get_profile, name='get_profile'),
     path('api/', include('procurement.urls')),
     
     # API Documentation

@@ -7,7 +7,7 @@ import StaffDashboard from './pages/StaffDashboard';
 import ApproverDashboard from './pages/ApproverDashboard';
 import FinanceDashboard from './pages/FinanceDashboard';
 import RequestForm from './pages/RequestForm';
-import RequestDetail from './pages/RequestDetail';
+import RequestDetails from './pages/RequestDetails';
 import LoadingSpinner from './components/UI/LoadingSpinner';
 
 // Protected Route component
@@ -96,7 +96,7 @@ function App() {
           element={
             <ProtectedRoute>
               <Layout>
-                <RequestDetail />
+                <RequestDetails />
               </Layout>
             </ProtectedRoute>
           }

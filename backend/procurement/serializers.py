@@ -5,7 +5,6 @@ from .models import PurchaseRequest, RequestItem, Approval, PurchaseOrder, Recei
 
 User = get_user_model()
 
-
 class UserSimpleSerializer(serializers.ModelSerializer):
     """Simple user serializer for foreign key relationships."""
     

@@ -13,6 +13,7 @@ from decimal import Decimal
 
 from .models import PurchaseRequest, Approval, PurchaseOrder, ReceiptValidation
 from .utils import extract_text_from_file, parse_proforma_text, validate_receipt
+from .user_utils import is_approver_level_1, is_approver_level_2, can_approve
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -141,7 +142,7 @@ class PurchaseRequestService:
         
         if not existing_approvals:
             # No approvals yet, Level 1 approver can start
-            return 1 if approver.is_approver_level_1 else None
+            return 1 if is_approver_level_1(approver) else None
         
         last_approval = existing_approvals.last()
         
@@ -151,7 +152,7 @@ class PurchaseRequestService:
         
         # If level 1 was approved, level 2 can approve
         if last_approval.level == 1 and last_approval.decision == 'approved':
-            return 2 if approver.is_approver_level_2 else None
+            return 2 if is_approver_level_2(approver) else None
         
         # If level 2 was already approved, no more approvals needed
         if last_approval.level == 2:
@@ -399,7 +400,7 @@ class PurchaseRequestService:
         """Get purchase requests that are pending approval by the given approver."""
         pending_requests = []
         
-        if not approver.can_approve:
+        if not can_approve(approver):
             return pending_requests
         
         # Get all pending requests
@@ -413,7 +414,7 @@ class PurchaseRequestService:
             # Determine if this approver can act on this request
             if not existing_approvals:
                 # No approvals yet, Level 1 approver can approve
-                if approver.is_approver_level_1:
+                if is_approver_level_1(approver):
                     pending_requests.append(request)
             else:
                 last_approval = existing_approvals.last()
@@ -425,7 +426,7 @@ class PurchaseRequestService:
                 # If Level 1 approved, Level 2 can approve
                 if (last_approval.level == 1 and 
                     last_approval.decision == 'approved' and 
-                    approver.is_approver_level_2):
+                    is_approver_level_2(approver)):
                     pending_requests.append(request)
         
         return pending_requests

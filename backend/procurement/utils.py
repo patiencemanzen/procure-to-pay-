@@ -82,7 +82,7 @@ def parse_proforma_text(text: str) -> Dict[str, Any]:
             'subtotal': None,
             'tax': None,
             'total_amount': None,
-            'currency': 'USD',
+            'currency': 'RWF',
             'payment_terms': '',
             'due_date': ''
         }

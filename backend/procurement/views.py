@@ -20,6 +20,10 @@ from .permissions import (
     CanApprovePurchaseRequest, IsFinanceUser
 )
 from .services import PurchaseRequestService
+from .user_utils import (
+    get_user_role, is_staff_member, can_approve, is_finance_user,
+    is_approver_level_1, is_approver_level_2
+)
 
 User = get_user_model()
 
@@ -56,19 +60,19 @@ class PurchaseRequestViewSet(ModelViewSet):
         """Filter queryset based on user role."""
         user = self.request.user
         
-        if user.is_staff_member:
+        if is_staff_member(user):
             # Staff can only see their own requests
             return PurchaseRequest.objects.filter(created_by=user).prefetch_related(
                 'items', 'approvals__approver', 'created_by', 'approved_by', 'purchase_order'
             )
-        elif user.can_approve:
+        elif can_approve(user):
             # Approvers can see requests they can act on
             pending_requests = PurchaseRequestService.get_pending_requests_for_approver(user)
             request_ids = [req.id for req in pending_requests]
             return PurchaseRequest.objects.filter(id__in=request_ids).prefetch_related(
                 'items', 'approvals__approver', 'created_by', 'approved_by', 'purchase_order'
             )
-        elif user.is_finance_user:
+        elif is_finance_user(user):
             # Finance can see approved requests
             return PurchaseRequest.objects.filter(
                 status=PurchaseRequest.Status.APPROVED
@@ -80,7 +84,7 @@ class PurchaseRequestViewSet(ModelViewSet):
     
     def perform_create(self, serializer):
         """Set the created_by field when creating a request."""
-        if not self.request.user.is_staff_member:
+        if not is_staff_member(self.request.user):
             raise permissions.PermissionDenied("Only staff members can create purchase requests.")
         serializer.save(created_by=self.request.user)
     
@@ -119,7 +123,7 @@ class PendingRequestsView(generics.ListAPIView):
         """Get pending requests for current approver."""
         user = self.request.user
         
-        if not user.can_approve:
+        if not can_approve(user):
             return PurchaseRequest.objects.none()
         
         pending_requests = PurchaseRequestService.get_pending_requests_for_approver(user)
@@ -145,7 +149,7 @@ class ApprovalActionView(APIView):
         """Approve or reject a purchase request."""
         user = request.user
         
-        if not user.can_approve:
+        if not can_approve(user):
             return Response(
                 {'error': 'User does not have approval permissions'},
                 status=status.HTTP_403_FORBIDDEN
@@ -282,12 +286,12 @@ class PurchaseOrderViewSet(ModelViewSet):
         """Filter based on user role."""
         user = self.request.user
         
-        if user.is_staff_member:
+        if is_staff_member(user):
             # Staff can see POs for their approved requests
             return PurchaseOrder.objects.filter(
                 purchase_request__created_by=user
             ).select_related('purchase_request')
-        elif user.is_finance_user or user.can_approve:
+        elif is_finance_user(user) or can_approve(user):
             # Finance and approvers can see all POs
             return PurchaseOrder.objects.all().select_related('purchase_request')
         else:
@@ -306,7 +310,7 @@ class UserStatsView(APIView):
         user = request.user
         stats = {}
         
-        if user.is_staff_member:
+        if is_staff_member(user):
             # Staff statistics
             my_requests = PurchaseRequest.objects.filter(created_by=user)
             stats = {
@@ -317,19 +321,19 @@ class UserStatsView(APIView):
                 'rejected_requests': my_requests.filter(status='rejected').count(),
             }
         
-        elif user.can_approve:
+        elif can_approve(user):
             # Approver statistics
             pending_for_me = PurchaseRequestService.get_pending_requests_for_approver(user)
             my_approvals = Approval.objects.filter(approver=user)
             
             stats = {
-                'role': f'approver_level_{1 if user.is_approver_level_1 else 2}',
+                'role': f'approver_level_{1 if is_approver_level_1(user) else 2}',
                 'pending_for_approval': len(pending_for_me),
                 'total_approved': my_approvals.filter(decision='approved').count(),
                 'total_rejected': my_approvals.filter(decision='rejected').count(),
             }
         
-        elif user.is_finance_user:
+        elif is_finance_user(user):
             # Finance statistics
             approved_requests = PurchaseRequest.objects.filter(status='approved')
             total_purchase_orders = PurchaseOrder.objects.count()

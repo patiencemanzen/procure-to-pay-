@@ -1,5 +1,6 @@
 from rest_framework import permissions
 from django.contrib.auth import get_user_model
+from .user_utils import is_staff_member, can_approve, is_finance_user, is_approver_level_1, is_approver_level_2
 
 User = get_user_model()
 
@@ -18,42 +19,42 @@ class IsStaffUser(permissions.BasePermission):
     """Permission for staff users only."""
     
     def has_permission(self, request, view):
-        return request.user.is_authenticated and request.user.is_staff_member
+        return request.user.is_authenticated and is_staff_member(request.user)
 
 
 class IsApproverUser(permissions.BasePermission):
     """Permission for approver users only."""
     
     def has_permission(self, request, view):
-        return request.user.is_authenticated and request.user.can_approve
+        return request.user.is_authenticated and can_approve(request.user)
 
 
 class IsApproverLevel1(permissions.BasePermission):
     """Permission for Level 1 approvers only."""
     
     def has_permission(self, request, view):
-        return request.user.is_authenticated and request.user.is_approver_level_1
+        return request.user.is_authenticated and is_approver_level_1(request.user)
 
 
 class IsApproverLevel2(permissions.BasePermission):
     """Permission for Level 2 approvers only."""
     
     def has_permission(self, request, view):
-        return request.user.is_authenticated and request.user.is_approver_level_2
+        return request.user.is_authenticated and is_approver_level_2(request.user)
 
 
 class IsFinanceUser(permissions.BasePermission):
     """Permission for finance users only."""
     
     def has_permission(self, request, view):
-        return request.user.is_authenticated and request.user.is_finance_user
+        return request.user.is_authenticated and is_finance_user(request.user)
 
 
 class CanApprovePurchaseRequest(permissions.BasePermission):
     """Permission to check if user can approve a specific purchase request."""
     
     def has_object_permission(self, request, view, obj):
-        if not request.user.can_approve:
+        if not can_approve(request.user):
             return False
         
         # Get existing approvals for this request
@@ -61,7 +62,7 @@ class CanApprovePurchaseRequest(permissions.BasePermission):
         
         # If no approvals yet, Level 1 approver can approve
         if not existing_approvals:
-            return request.user.is_approver_level_1
+            return is_approver_level_1(request.user)
         
         last_approval = existing_approvals.last()
         
@@ -71,7 +72,7 @@ class CanApprovePurchaseRequest(permissions.BasePermission):
         
         # If Level 1 approved, Level 2 can approve
         if last_approval.level == 1 and last_approval.decision == 'approved':
-            return request.user.is_approver_level_2
+            return is_approver_level_2(request.user)
         
         # If already fully approved, no more approvals needed
         return False
@@ -95,7 +96,7 @@ class StaffCanCreateAndEditOwn(permissions.BasePermission):
     def has_permission(self, request, view):
         # Must be staff to create
         if request.method == 'POST':
-            return request.user.is_authenticated and request.user.is_staff_member
+            return request.user.is_authenticated and is_staff_member(request.user)
         
         # Other methods handled by has_object_permission
         return request.user.is_authenticated
@@ -103,11 +104,11 @@ class StaffCanCreateAndEditOwn(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         # Read permission for staff on their own requests
         if request.method in permissions.SAFE_METHODS:
-            return request.user.is_staff_member and obj.created_by == request.user
+            return is_staff_member(request.user) and obj.created_by == request.user
         
         # Edit permission only for own pending requests
         if request.method in ['PUT', 'PATCH']:
-            return (request.user.is_staff_member and 
+            return (is_staff_member(request.user) and 
                    obj.created_by == request.user and 
                    obj.can_be_edited)
         
@@ -121,7 +122,7 @@ class ApproverCanViewPending(permissions.BasePermission):
         return request.user.is_authenticated and request.user.can_approve
     
     def has_object_permission(self, request, view, obj):
-        if not request.user.can_approve:
+        if not can_approve(request.user):
             return False
         
         # Can only view pending requests
@@ -133,7 +134,7 @@ class ApproverCanViewPending(permissions.BasePermission):
         
         # If no approvals yet, Level 1 approver can view
         if not existing_approvals:
-            return request.user.is_approver_level_1
+            return is_approver_level_1(request.user)
         
         last_approval = existing_approvals.last()
         
@@ -143,7 +144,7 @@ class ApproverCanViewPending(permissions.BasePermission):
         
         # If Level 1 approved, Level 2 can view
         if last_approval.level == 1 and last_approval.decision == 'approved':
-            return request.user.is_approver_level_2
+            return is_approver_level_2(request.user)
         
         return False
 
@@ -152,8 +153,8 @@ class FinanceCanViewApproved(permissions.BasePermission):
     """Permission for finance users to view approved requests."""
     
     def has_permission(self, request, view):
-        return request.user.is_authenticated and request.user.is_finance_user
+        return request.user.is_authenticated and is_finance_user(request.user)
     
     def has_object_permission(self, request, view, obj):
         # Finance can only view approved requests
-        return request.user.is_finance_user and obj.is_approved
+        return is_finance_user(request.user) and obj.is_approved
