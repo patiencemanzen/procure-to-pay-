@@ -1,6 +1,18 @@
 import pdfplumber
-import pytesseract
-from PIL import Image
+try:
+    import pytesseract
+    PYTESSERACT_AVAILABLE = True
+except ImportError:
+    PYTESSERACT_AVAILABLE = False
+    pytesseract = None
+    
+try:
+    from PIL import Image
+    PIL_AVAILABLE = True
+except ImportError:
+    PIL_AVAILABLE = False
+    Image = None
+
 import re
 import logging
 from typing import Dict, List, Any, Tuple
@@ -26,6 +38,11 @@ def extract_text_from_file(file_path: str) -> str:
         if file_extension == 'pdf':
             return extract_text_from_pdf(file_path)
         elif file_extension in ['jpg', 'jpeg', 'png', 'tiff', 'bmp']:
+            if not PYTESSERACT_AVAILABLE:
+                raise ImportError(
+                    "OCR functionality not available. pytesseract is required for image text extraction. "
+                    "Please ensure the application is properly configured with OCR dependencies."
+                )
             return extract_text_from_image(file_path)
         else:
             raise ValueError(f"Unsupported file format: {file_extension}")
@@ -52,6 +69,17 @@ def extract_text_from_pdf(pdf_path: str) -> str:
 
 def extract_text_from_image(image_path: str) -> str:
     """Extract text from image using pytesseract OCR."""
+    if not PYTESSERACT_AVAILABLE:
+        raise ImportError(
+            "pytesseract is not available. Please install it with: pip install pytesseract. "
+            "Also ensure tesseract-ocr system package is installed."
+        )
+    
+    if not PIL_AVAILABLE:
+        raise ImportError(
+            "PIL (Pillow) is not available. Please install it with: pip install Pillow"
+        )
+    
     try:
         image = Image.open(image_path)
         text = pytesseract.image_to_string(image)

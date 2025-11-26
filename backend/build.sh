@@ -5,8 +5,14 @@
 
 echo "🚀 Starting Render build process..."
 
-# Install dependencies
-echo "📦 Installing dependencies..."
+# Install system dependencies for OCR
+echo "📦 Installing system dependencies..."
+apt-get update
+apt-get install -y tesseract-ocr
+apt-get install -y libtesseract-dev
+
+# Install Python dependencies
+echo "📦 Installing Python dependencies..."
 pip install -r requirements.txt
 
 # Check environment for debugging

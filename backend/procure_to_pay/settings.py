@@ -84,15 +84,18 @@ print(f"  DB_HOST contains render.com: {'render.com' in os.environ.get('DB_HOST'
 print(f"  Final IS_RENDER: {IS_RENDER}")
 
 if IS_RENDER:
-    db_name = os.environ.get('DB_NAME', '')
-    db_user = os.environ.get('DB_USER', '') 
+    # Production database on Render - Force PostgreSQL
+    db_name = os.environ.get('DB_NAME', 'procure_to_pay_06j8')
+    db_user = os.environ.get('DB_USER', 'procure_to_pay_06j8_user') 
     db_password = os.environ.get('DB_PASSWORD', '')
-    db_host = ''
+    db_host = 'dpg-d4jbl1fgi27c739jbkd0-a.oregon-postgres.render.com'  # Fixed host
     db_port = os.environ.get('DB_PORT', '5432')
     
+    # Try DATABASE_URL first, then individual variables
     database_url = os.environ.get('DATABASE_URL') or os.environ.get('DB_HOST')
     
     if database_url and database_url.startswith('postgresql://'):
+        # Use DATABASE_URL
         DATABASES = {
             'default': dj_database_url.parse(database_url)
         }
@@ -113,6 +116,10 @@ if IS_RENDER:
                 }
             }
         }
+        print(f"✅ Using PostgreSQL from individual variables on Render")
+        print(f"  Host: {db_host}")
+        print(f"  Name: {db_name}")
+        print(f"  User: {db_user}")
 else:
     # Development database (SQLite)
     DATABASES = {
@@ -248,3 +255,22 @@ LOGGING = {
         },
     },
 }
+
+# Dependency checks
+print(f"🔍 Checking critical dependencies...")
+try:
+    import psycopg2
+    print(f"✅ psycopg2 available")
+except ImportError:
+    if IS_RENDER:
+        print(f"❌ psycopg2 not available - PostgreSQL won't work!")
+    else:
+        print(f"⚠️ psycopg2 not available (OK for development with SQLite)")
+
+try:
+    import pytesseract
+    print(f"✅ pytesseract available")
+except ImportError:
+    print(f"⚠️ pytesseract not available - OCR features will be disabled")
+
+print(f"✅ Django settings loaded successfully")

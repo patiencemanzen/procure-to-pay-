@@ -28,7 +28,6 @@ class IsApproverUser(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user.is_authenticated and can_approve(request.user)
 
-
 class IsApproverLevel1(permissions.BasePermission):
     """Permission for Level 1 approvers only."""
     
