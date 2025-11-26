@@ -36,22 +36,6 @@ const RequestForm = () => {
 
   const watchedItems = watch('items');
 
-  useEffect(() => {
-    if (isEditing) {
-      loadRequest();
-    }
-  }, [isEditing, loadRequest]);
-
-  useEffect(() => {
-    // Calculate total amount from items
-    const total = watchedItems.reduce((sum, item) => {
-      const quantity = parseFloat(item.quantity) || 0;
-      const unitPrice = parseFloat(item.unit_price) || 0;
-      return sum + (quantity * unitPrice);
-    }, 0);
-    setValue('amount', total.toFixed(2));
-  }, [watchedItems, setValue]);
-
   const loadRequest = useCallback(async () => {
     setLoading(true);
     try {
@@ -73,6 +57,22 @@ const RequestForm = () => {
       setLoading(false);
     }
   }, [id, setValue, navigate]);
+
+  useEffect(() => {
+    if (isEditing) {
+      loadRequest();
+    }
+  }, [isEditing, loadRequest]);
+
+  useEffect(() => {
+    // Calculate total amount from items
+    const total = watchedItems.reduce((sum, item) => {
+      const quantity = parseFloat(item.quantity) || 0;
+      const unitPrice = parseFloat(item.unit_price) || 0;
+      return sum + (quantity * unitPrice);
+    }, 0);
+    setValue('amount', total.toFixed(2));
+  }, [watchedItems, setValue]);
 
   const onSubmit = async (data) => {
     setSubmitting(true);

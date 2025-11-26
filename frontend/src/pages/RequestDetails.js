@@ -11,10 +11,6 @@ const RequestDetails = () => {
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
 
-  useEffect(() => {
-    loadRequest();
-  }, [loadRequest]);
-
   const loadRequest = useCallback(async () => {
     try {
       const data = await purchaseRequestAPI.getRequest(id);
@@ -26,6 +22,10 @@ const RequestDetails = () => {
       setLoading(false);
     }
   }, [id]);
+
+  useEffect(() => {
+    loadRequest();
+  }, [loadRequest]);
 
   const handleApproval = async (action) => {
     setActionLoading(true);
