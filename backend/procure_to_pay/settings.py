@@ -255,22 +255,3 @@ LOGGING = {
         },
     },
 }
-
-# Dependency checks
-print(f"🔍 Checking critical dependencies...")
-try:
-    import psycopg2
-    print(f"✅ psycopg2 available")
-except ImportError:
-    if IS_RENDER:
-        print(f"❌ psycopg2 not available - PostgreSQL won't work!")
-    else:
-        print(f"⚠️ psycopg2 not available (OK for development with SQLite)")
-
-try:
-    import pytesseract
-    print(f"✅ pytesseract available")
-except ImportError:
-    print(f"⚠️ pytesseract not available - OCR features will be disabled")
-
-print(f"✅ Django settings loaded successfully")
