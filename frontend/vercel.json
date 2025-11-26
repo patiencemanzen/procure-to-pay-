@@ -15,13 +15,5 @@
         }
       ]
     }
-  ],
-  "functions": {
-    "build": {
-      "env": {
-        "GENERATE_SOURCEMAP": "false",
-        "CI": "false"
-      }
-    }
-  }
+  ]
 }
