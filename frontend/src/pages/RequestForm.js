@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { purchaseRequestAPI } from '../services/api';
@@ -40,7 +40,7 @@ const RequestForm = () => {
     if (isEditing) {
       loadRequest();
     }
-  }, [isEditing, id]);
+  }, [isEditing, loadRequest]);
 
   useEffect(() => {
     // Calculate total amount from items
@@ -52,7 +52,7 @@ const RequestForm = () => {
     setValue('amount', total.toFixed(2));
   }, [watchedItems, setValue]);
 
-  const loadRequest = async () => {
+  const loadRequest = useCallback(async () => {
     setLoading(true);
     try {
       const request = await purchaseRequestAPI.getRequest(id);
@@ -72,7 +72,7 @@ const RequestForm = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, setValue, navigate]);
 
   const onSubmit = async (data) => {
     setSubmitting(true);

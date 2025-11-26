@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { purchaseRequestAPI } from '../services/api';
 import { format } from 'date-fns';
@@ -13,9 +13,9 @@ const RequestDetails = () => {
 
   useEffect(() => {
     loadRequest();
-  }, [id]);
+  }, [loadRequest]);
 
-  const loadRequest = async () => {
+  const loadRequest = useCallback(async () => {
     try {
       const data = await purchaseRequestAPI.getRequest(id);
       setRequest(data);
@@ -25,7 +25,7 @@ const RequestDetails = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
 
   const handleApproval = async (action) => {
     setActionLoading(true);
