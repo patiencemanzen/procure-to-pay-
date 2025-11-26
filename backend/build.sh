@@ -15,8 +15,17 @@ apt-get install -y libtesseract-dev
 echo "📦 Installing Python dependencies..."
 pip install -r requirements.txt
 
-# Check environment for debugging
+# Collect static files
+echo "📁 Collecting static files..."
 python manage.py collectstatic --noinput
-python manage.py migrate
+
+# Run database migrations
+echo "🗄️ Running database migrations..."
+python manage.py migrate --verbosity=2
+
+# Check database status
+echo "🔍 Checking database status..."
+python manage.py check_db
 
 echo "✅ Build completed successfully!"
+echo "🌐 Service will be available at your Render URL"
