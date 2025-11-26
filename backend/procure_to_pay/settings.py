@@ -65,12 +65,71 @@ TEMPLATES = [
 WSGI_APPLICATION = 'procure_to_pay.wsgi.application'
 
 # Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+import dj_database_url
+import os
+
+# Detect if we're on Render (multiple ways)
+IS_RENDER = (
+    os.environ.get('RENDER') == 'true' or 
+    os.environ.get('RENDER_SERVICE_NAME') is not None or
+    'render.com' in os.environ.get('DATABASE_URL', '') or
+    'render.com' in os.environ.get('DB_HOST', '')
+)
+
+print(f"🔍 Environment Detection:")
+print(f"  RENDER env var: {os.environ.get('RENDER')}")
+print(f"  RENDER_SERVICE_NAME: {os.environ.get('RENDER_SERVICE_NAME')}")
+print(f"  DATABASE_URL contains render.com: {'render.com' in os.environ.get('DATABASE_URL', '')}")
+print(f"  DB_HOST contains render.com: {'render.com' in os.environ.get('DB_HOST', '')}")
+print(f"  Final IS_RENDER: {IS_RENDER}")
+
+if IS_RENDER:
+    # Production database on Render - Force PostgreSQL
+    # Try individual variables first (recommended by Render)
+    db_name = os.environ.get('DB_NAME', 'procure_to_pay_06j8')
+    db_user = os.environ.get('DB_USER', 'procure_to_pay_06j8_user') 
+    db_password = os.environ.get('DB_PASSWORD', '')
+    db_host = 'dpg-d4jbl1fgi27c739jbkd0-a.oregon-postgres.render.com'
+    db_port = os.environ.get('DB_PORT', '5432')
+    
+    # If individual variables are not complete, try DATABASE_URL
+    database_url = os.environ.get('DATABASE_URL') or os.environ.get('DB_HOST')
+    
+    if database_url and database_url.startswith('postgresql://'):
+        # Use DATABASE_URL
+        DATABASES = {
+            'default': dj_database_url.parse(database_url)
+        }
+        print(f"✅ Using PostgreSQL from DATABASE_URL on Render")
+    else:
+        # Use individual variables
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': db_name,
+                'USER': db_user,
+                'PASSWORD': db_password,
+                'HOST': db_host,
+                'PORT': db_port,
+                'OPTIONS': {
+                    'connect_timeout': 60,
+                    'sslmode': 'require',
+                }
+            }
+        }
+        print(f"✅ Using PostgreSQL from individual variables on Render")
+        print(f"  Host: {db_host}")
+        print(f"  Name: {db_name}")
+        print(f"  User: {db_user}")
+else:
+    # Development database (SQLite)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+    print(f"🔧 Using SQLite database for development")
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
