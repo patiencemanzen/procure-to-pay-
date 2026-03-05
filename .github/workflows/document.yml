@@ -27,8 +27,7 @@ jobs:
     steps:
       - name: Trigger Docnine sync
         run: |
-          curl -s -o /dev/null -w "%{http_code}" \
-            -X POST "https://docnineai-server.vercel.app/api/webhook" \
+          curl -X POST https://docnineai-server.vercel.app/api/webhook \
             -H "Content-Type: application/json" \
             -H "X-Hub-Signature-256: sha256=${{ secrets.DOCNINE_WEBHOOK_SECRET }}" \
-            -d "${{ toJson(github.event) }}"
+            -d '${{ toJson(github.event) }}'
